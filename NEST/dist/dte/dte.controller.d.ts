@@ -4,11 +4,7 @@ export declare class DteController {
     constructor(dteService: DteService);
     emitir(data: any): Promise<{
         printer: string;
-        data: {
-            type: string;
-            format: string;
-            data: string;
-        }[];
+        data: string[];
     }>;
     topProductos(): Promise<(import("@prisma/client").Prisma.PickEnumerable<import("@prisma/client").Prisma.Detalle_ventaGroupByOutputType, "id_producto"[]> & {
         _sum: {
@@ -16,11 +12,11 @@ export declare class DteController {
         };
     })[]>;
     ventasEmpresa(): Promise<(import("@prisma/client").Prisma.PickEnumerable<import("@prisma/client").Prisma.VentaGroupByOutputType, "id_empresa"[]> & {
-        _count: {
-            _all: number;
-        };
         _sum: {
             total: number | null;
+        };
+        _count: {
+            _all: number;
         };
     })[]>;
     ingresosFecha(inicio: string, fin: string): Promise<{

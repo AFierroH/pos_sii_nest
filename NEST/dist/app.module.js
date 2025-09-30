@@ -7,18 +7,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const app_controller_1 = require("./app.controller");
+const dte_module_1 = require("./dte/dte.module");
+const app_service_1 = require("./app.service");
 const common_1 = require("@nestjs/common");
 const empresa_module_1 = require("./empresa/empresa.module");
 const usuario_module_1 = require("./usuario/usuario.module");
 const venta_module_1 = require("./venta/venta.module");
+const producto_module_1 = require("./producto/producto.module");
 const prisma_service_1 = require("./prisma.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [empresa_module_1.EmpresaModule, usuario_module_1.UsuarioModule, venta_module_1.VentaModule],
-        providers: [prisma_service_1.PrismaService],
+        imports: [empresa_module_1.EmpresaModule, usuario_module_1.UsuarioModule, venta_module_1.VentaModule, dte_module_1.DteModule, producto_module_1.ProductoModule],
+        controllers: [app_controller_1.AppController],
+        providers: [prisma_service_1.PrismaService, app_service_1.AppService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

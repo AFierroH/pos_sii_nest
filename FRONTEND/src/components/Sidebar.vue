@@ -28,6 +28,7 @@ const items = [
   { key:'ventas', title:'Ventas', route:'/ventas' },
   { key:'productos', title:'Productos', route:'/productos' },
   { key:'estadisticas', title:'Estadísticas', route:'/estadisticas' },
-  { key:'config', title:'Configuración', route:'/config' }
+  { key:'config', title:'Configuración', route:'/config' },
+  { key:'impresora', title:'Prueba', route:'/impresora' }
 ]
 </script>

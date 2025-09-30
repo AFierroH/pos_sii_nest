@@ -10,8 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DteService = void 0;
+exports.getFormattedDate = getFormattedDate;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma.service");
+function getFormattedDate() {
+    const now = new Date();
+    return now.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    });
+}
 let DteService = class DteService {
     prisma;
     constructor(prisma) {
@@ -19,16 +31,20 @@ let DteService = class DteService {
     }
     async emitirDte(data) {
         const fecha = new Date().toLocaleString();
-        const escpos = [
-            { type: 'raw', format: 'plain', data: '\x1B\x40' },
-            { type: 'raw', format: 'plain', data: '=== PRUEBA DE IMPRESORA ===\n' },
-            { type: 'raw', format: 'plain', data: `Fecha: ${fecha}\n` },
-            { type: 'raw', format: 'plain', data: 'Linea 1: Texto normal\n' },
-            { type: 'raw', format: 'plain', data: '\x1B\x45\x01Texto en negrita\x1B\x45\x00\n' },
-            { type: 'raw', format: 'plain', data: '\n\n\n' }
+        var escpos = [
+            '\x1B' + '\x40',
+            '\x1B' + '\x52' + '\x03',
+            '\x1B' + '\x74' + '\x13',
+            '\x1B' + '\x61' + '\x31',
+            'Av. Alemania 671, 4800971 Temuco, Araucanía' + '\x0A',
+            'Cerveza Cristal (Qty 4)       $2.000' + '\x0A',
+            'Ñandú, café, azúcar, acción, útil' + '\x0A',
+            '------------------------------------------' + '\x0A',
+            'Texto normal con acentos OK áéíóú Ñ' + '\x0A',
+            '\x1D' + '\x56' + '\x30'
         ];
         return {
-            printer: "XP-80C",
+            printer: "XP-80C2",
             data: escpos
         };
     }

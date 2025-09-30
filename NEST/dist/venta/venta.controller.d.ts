@@ -1,28 +1,39 @@
 import { VentaService } from './venta.service';
+import { DteService } from '../dte/dte.service';
 export declare class VentaController {
-    private readonly ventaService;
-    constructor(ventaService: VentaService);
-    getAll(): import("@prisma/client").Prisma.PrismaPromise<({
+    private ventaService;
+    private dteService;
+    constructor(ventaService: VentaService, dteService: DteService);
+    getVentas(): Promise<({
         detalles: {
-            id_venta: number;
             id_detalle: number;
+            id_venta: number;
             id_producto: number;
             cantidad: number;
             precio_unitario: number;
             subtotal: number;
         }[];
     } & {
-        id_empresa: number;
-        id_usuario: number;
         id_venta: number;
         fecha: Date;
         total: number;
+        id_usuario: number;
+        id_empresa: number;
     })[]>;
-    create(data: any): import("@prisma/client").Prisma.Prisma__ventaClient<{
-        id_empresa: number;
-        id_usuario: number;
+    crearVenta(payload: any): Promise<{
         id_venta: number;
         fecha: Date;
         total: number;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+        id_usuario: number;
+        id_empresa: number;
+    }>;
+    emitirDte(payload: any): Promise<{
+        printer: string;
+        data: string[];
+    }>;
+    ventasPorFecha(inicio: string, fin: string): Promise<{
+        fecha: Date;
+        total: number;
+    }[]>;
+    ticketPromedio(): Promise<number>;
 }

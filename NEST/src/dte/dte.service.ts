@@ -22,59 +22,19 @@ async emitirDte(data: any) {
   const fecha = new Date().toLocaleString();
 
   var escpos = [
-   '\x1B' + '\x40',          // init
-   { type: 'raw', format: 'plain', data: '\x1B\x74\x35' },
-   '\x1B' + '\x61' + '\x31', // center align
-   'Av. Alemania 671, 4800971 Temuco, Araucania' + '\x0A',
-   '\x0A',                   // line break
-   'https://cencomalls.cl/temuco' + '\x0A',     // text and line break
-   '\x0A',                   // line break
-   '\x0A',                   // line break
-   getFormattedDate() + '\x0A',
-   '\x0A',                   // line break
-   '\x0A',                   // line break    
-   '\x0A',
-   'Transaccion # 123456 Caja: 3' + '\x0A',
-   '\x0A',
-   '\x0A',
-   '\x0A',
-   '\x1B' + '\x61' + '\x30', // left align
-   'Cerveza Cristal (Qty 4)       $2.000' + '\x1B' + '\x74' + '\x13' + '\xAA', //print special char symbol after numeric
-   '\x0A',
-   'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' + '\x0A',       
-   '\x1B' + '\x45' + '\x0D', // bold on
-   'Texto en negrita prueba',
-   '\x1B' + '\x45' + '\x0A', // bold off
-   '\x0A' + '\x0A',
-   '\x1B' + '\x61' + '\x32', // right align
-   '\x1B' + '\x21' + '\x30', // em mode on
-   'DERECHA',
-   '\x1B' + '\x21' + '\x0A' + '\x1B' + '\x45' + '\x0A', // em mode off
-   '\x0A' + '\x0A',
-   '\x1B' + '\x61' + '\x30', // left align
-   '------------------------------------------' + '\x0A',
-   '\x1B' + '\x4D' + '\x31', // small text
-   'TEXTO PEQUEÑO PRUEBA' + '\x0A',
-   '\x1B' + '\x4D' + '\x30', // normal text
-   '------------------------------------------' + '\x0A',
-   'Texto normal prueba' + '\x0A',
-   '\x1B' + '\x61' + '\x30', // left align
-   '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A' + '\x0A',
-   '\x1D' + '\x56' + '\x30',
-   //   '\x1B' + '\x69',          // cut paper (old syntax)
-// '\x1D' + '\x56'  + '\x00' // full cut (new syntax)
-// '\x1D' + '\x56'  + '\x30' // full cut (new syntax)
-// '\x1D' + '\x56'  + '\x01' // partial cut (new syntax)
-// '\x1D' + '\x56'  + '\x31' // partial cut (new syntax)
-//  '\x10' + '\x14' + '\x01' + '\x00' + '\x05',  // Generate Pulse to kick-out cash drawer**
-                                                // **for legacy drawer cable CD-005A.  Research before using.
-// Star TSP100-series kick-out ONLY
-// '\x1B' + '\x70' + '\x00' /* drawer 1 */ + '\xC8' + '\xC8' + '\x1B' + '\x1F' + '\x70' + '\x03' + '\x00',
-// '\x1B' + '\x70' + '\x01' /* drawer 2 */ + '\xC8' + '\xC8' + '\x1B' + '\x1F' + '\x70' + '\x03' + '\x00',
-   ];
-
+  '\x1B' + '\x40',          // init printer
+  '\x1B' + '\x52' + '\x03', // ESC R 3 → Spain
+  '\x1B' + '\x74' + '\x13', // ESC t 19 → Western Europe (CP1252)
+  '\x1B' + '\x61' + '\x31', // center align
+  'Av. Alemania 671, 4800971 Temuco, Araucanía' + '\x0A',
+  'Cerveza Cristal (Qty 4)       $2.000' + '\x0A',
+  'Ñandú, café, azúcar, acción, útil' + '\x0A',
+  '------------------------------------------' + '\x0A',
+  'Texto normal con acentos OK áéíóú Ñ' + '\x0A',
+  '\x1D' + '\x56' + '\x30'  // cortar papel
+];
   return {
-    printer: "XP-80C", // nombre exacto en Windows
+    printer: "XP-80C2", // nombre exacto en Windows
     data: escpos
   };
 }

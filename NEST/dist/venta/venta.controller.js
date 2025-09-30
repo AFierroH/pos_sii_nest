@@ -15,13 +15,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VentaController = void 0;
 const common_1 = require("@nestjs/common");
 const venta_service_1 = require("./venta.service");
+const dte_service_1 = require("../dte/dte.service");
 let VentaController = class VentaController {
     ventaService;
-    constructor(ventaService) {
+    dteService;
+    constructor(ventaService, dteService) {
         this.ventaService = ventaService;
+        this.dteService = dteService;
     }
-    getAll() { return this.ventaService.getVentas(); }
-    create(data) { return this.ventaService.createVenta(data); }
+    getVentas() {
+        return this.ventaService.getVentas();
+    }
+    async crearVenta(payload) {
+        return this.ventaService.createVenta(payload);
+    }
+    async emitirDte(payload) {
+        return this.dteService.emitirDte(payload);
+    }
+    async ventasPorFecha(inicio, fin) {
+        return this.ventaService.ventasPorFecha(inicio, fin);
+    }
+    async ticketPromedio() {
+        return this.ventaService.ticketPromedio();
+    }
 };
 exports.VentaController = VentaController;
 __decorate([
@@ -29,16 +45,37 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], VentaController.prototype, "getAll", null);
+], VentaController.prototype, "getVentas", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], VentaController.prototype, "create", null);
+    __metadata("design:returntype", Promise)
+], VentaController.prototype, "crearVenta", null);
+__decorate([
+    (0, common_1.Post)('emitir'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], VentaController.prototype, "emitirDte", null);
+__decorate([
+    (0, common_1.Get)('por-fecha'),
+    __param(0, (0, common_1.Query)('inicio')),
+    __param(1, (0, common_1.Query)('fin')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], VentaController.prototype, "ventasPorFecha", null);
+__decorate([
+    (0, common_1.Get)('ticket-promedio'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], VentaController.prototype, "ticketPromedio", null);
 exports.VentaController = VentaController = __decorate([
     (0, common_1.Controller)('ventas'),
-    __metadata("design:paramtypes", [venta_service_1.VentaService])
+    __metadata("design:paramtypes", [venta_service_1.VentaService, dte_service_1.DteService])
 ], VentaController);
 //# sourceMappingURL=venta.controller.js.map

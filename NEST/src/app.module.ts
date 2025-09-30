@@ -6,10 +6,11 @@ import { Module } from '@nestjs/common';
 import { EmpresaModule } from './empresa/empresa.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { VentaModule } from './venta/venta.module';
+import { ProductoModule } from './producto/producto.module';
 import { PrismaService } from './prisma.service';
 
 @Module({
-  imports: [EmpresaModule, UsuarioModule, VentaModule, DteModule],
+  imports: [EmpresaModule, UsuarioModule, VentaModule, DteModule, ProductoModule],
   controllers: [AppController],
   providers: [PrismaService, AppService], 
 })

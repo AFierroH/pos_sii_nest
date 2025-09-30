@@ -17,8 +17,23 @@ let VentaService = class VentaService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    getVentas() { return this.prisma.venta.findMany({ include: { detalles: true } }); }
-    createVenta(data) { return this.prisma.venta.create({ data }); }
+    async getVentas() {
+        return this.prisma.venta.findMany({ include: { detalles: true } });
+    }
+    async createVenta(data) {
+        return this.prisma.venta.create({ data });
+    }
+    async ventasPorFecha(inicio, fin) {
+        return this.prisma.venta.findMany({
+            where: { fecha: { gte: new Date(inicio), lte: new Date(fin) } },
+            select: { fecha: true, total: true }
+        });
+    }
+    async ticketPromedio() {
+        const ventas = await this.prisma.venta.findMany({ select: { total: true } });
+        const total = ventas.reduce((a, b) => a + b.total, 0);
+        return ventas.length ? total / ventas.length : 0;
+    }
 };
 exports.VentaService = VentaService;
 exports.VentaService = VentaService = __decorate([
