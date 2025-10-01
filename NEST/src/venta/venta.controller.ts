@@ -1,33 +1,13 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { VentaService } from './venta.service';
-import { DteService } from '../dte/dte.service';
 
 @Controller('ventas')
 export class VentaController {
-  constructor(private ventaService: VentaService, private dteService: DteService) {}
-
-  @Get()
-  getVentas() {
-    return this.ventaService.getVentas();
-  }
-
-  @Post()
-  async crearVenta(@Body() payload) {
-    return this.ventaService.createVenta(payload);
-  }
+  constructor(private ventaService: VentaService) {}
 
   @Post('emitir')
-  async emitirDte(@Body() payload) {
-    return this.dteService.emitirDte(payload);
-  }
-
-  @Get('por-fecha')
-  async ventasPorFecha(@Query('inicio') inicio: string, @Query('fin') fin: string) {
-    return this.ventaService.ventasPorFecha(inicio, fin);
-  }
-
-  @Get('ticket-promedio')
-  async ticketPromedio() {
-    return this.ventaService.ticketPromedio();
+  async emitirVenta(@Body() body: any) {
+    // body debe incluir: id_usuario, id_empresa, total, detalles, pagos?, usarImpresora?
+    return this.ventaService.crearVentaSimulada(body);
   }
 }

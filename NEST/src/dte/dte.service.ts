@@ -1,44 +1,122 @@
 // Lógica de negocio para emisión de DTE y estadísticas
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { createCanvas } from 'canvas'; // sólo para PNG preview
+
 export function getFormattedDate() {
   const now = new Date();
-  return now.toLocaleString('en-US', {
-    month: 'short',   
-    day: 'numeric',   
-    year: 'numeric',  
-    hour: 'numeric',  
+  return now.toLocaleString('es-CL', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
     minute: '2-digit',
-    hour12: true      
   });
 }
+
 @Injectable()
 export class DteService {
   constructor(private prisma: PrismaService) {}
 
-  // Emite un DTE (crea venta + detalles y devuelve datos + comandos ESC/POS)
-  // dte.service.ts
-async emitirDte(data: any) {
-  const fecha = new Date().toLocaleString();
+  // Emite un DTE (crea venta + detalles y devuelve ticket ESC/POS o PNG preview)
+  async emitirDte(payload: any) {
+    const { id_usuario, id_empresa, total, detalles = [], usarImpresora = true } = payload;
+    if (!detalles || detalles.length === 0) {
+      throw new InternalServerErrorException('No hay items en la venta');
+    }
 
-  var escpos = [
-  '\x1B' + '\x40',          // init printer
-  '\x1B' + '\x52' + '\x03', // ESC R 3 → Spain
-  '\x1B' + '\x74' + '\x13', // ESC t 19 → Western Europe (CP1252)
-  '\x1B' + '\x61' + '\x31', // center align
-  'Av. Alemania 671, 4800971 Temuco, Araucanía' + '\x0A',
-  'Cerveza Cristal (Qty 4)       $2.000' + '\x0A',
-  'Ñandú, café, azúcar, acción, útil' + '\x0A',
-  '------------------------------------------' + '\x0A',
-  'Texto normal con acentos OK áéíóú Ñ' + '\x0A',
-  '\x1D' + '\x56' + '\x30'  // cortar papel
-];
-  return {
-    printer: "XP-80C2", // nombre exacto en Windows
-    data: escpos
-  };
-}
+    const fecha = getFormattedDate();
 
+    // Simular venta guardada (ejemplo, tú ya tienes transacciones reales con prisma)
+    const venta = {
+      id_venta: Math.floor(Math.random() * 9999),
+      fecha,
+      total,
+      id_usuario,
+      id_empresa,
+      detalles,
+    };
+
+    if (usarImpresora) {
+      // --- Construir ESC/POS ticket ---
+      const escpos: any[] = [];
+
+      escpos.push('\x1B\x40');          // init printer
+      escpos.push('\x1B\x52\x03');      // ESC R 3 → Spain
+      escpos.push('\x1B\x74\x13');      // ESC t 19 → Western Europe (CP1252)
+      escpos.push('\x1B\x61\x31');      // center align
+      escpos.push('Av. Alemania 671, 4800971 Temuco, Araucanía\n');
+      escpos.push(`Venta #: ${venta.id_venta}\n`);
+      escpos.push(`Fecha: ${venta.fecha}\n`);
+      escpos.push('------------------------------------------\n');
+
+      for (const d of detalles) {
+        escpos.push(`${d.cantidad} x Prod#${d.id_producto}  $${d.precio_unitario}\n`);
+      }
+
+      escpos.push('------------------------------------------\n');
+      escpos.push(`TOTAL: $${venta.total}\n`);
+      escpos.push('Gracias por su compra\n\n');
+      escpos.push('\x1D\x56\x30'); // cortar
+
+      return {
+        usarImpresora: true,
+        printer: 'XP-80C2',
+        data: escpos,
+        venta,
+      };
+    } else {
+      // --- Generar PNG preview con node-canvas ---
+      const width = 570;
+      const lineHeight = 20;
+      const height = 200 + detalles.length * lineHeight;
+      const canvas = createCanvas(width, height);
+      const ctx = canvas.getContext('2d');
+
+      // fondo blanco
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, width, height);
+
+      // header
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 18px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('Av. Alemania 671, Temuco', width / 2, 30);
+
+      ctx.font = '12px Arial';
+      ctx.textAlign = 'left';
+      let y = 60;
+      ctx.fillText(`Venta #: ${venta.id_venta}`, 10, y);
+      ctx.fillText(`Fecha: ${venta.fecha}`, 10, y + 18);
+      y += 40;
+
+      ctx.fillText('------------------------------------------', 10, y);
+      y += 20;
+
+      for (const d of detalles) {
+        ctx.fillText(`${d.cantidad} x Prod#${d.id_producto}`, 10, y);
+        ctx.textAlign = 'right';
+        ctx.fillText(`$${d.precio_unitario}`, width - 10, y);
+        ctx.textAlign = 'left';
+        y += lineHeight;
+      }
+
+      ctx.fillText('------------------------------------------', 10, y);
+      y += 20;
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'right';
+      ctx.fillText(`TOTAL: $${venta.total}`, width - 10, y);
+
+      const buffer = canvas.toBuffer('image/png');
+      const base64 = buffer.toString('base64');
+
+      return {
+        usarImpresora: false,
+        venta,
+        boletaBase64: base64,
+      };
+    }
+  }
 
   // Estadística: productos más vendidos
   async productosMasVendidos() {

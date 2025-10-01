@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Query } from '@nestjs/common';
+/* import { Controller, Post, Get, Body, Query } from '@nestjs/common';
 import { DteService } from './dte.service';
 
 @Controller('dte')
@@ -27,5 +27,22 @@ export class DteController {
   ingresosFecha(@Query('inicio') inicio: string, @Query('fin') fin: string) {
     console.log('GET /ingresos-por-fecha llamado con:', { inicio, fin });
     return this.dteService.ingresosPorFecha(inicio, fin);
+  }
+}
+ */
+
+// src/dte/dte.controller.ts
+// src/dte/dte.controller.ts
+import { Controller, Post, Body } from '@nestjs/common';
+import { DteService } from './dte.service';
+
+@Controller('dte')
+export class DteController {
+  constructor(private dte: DteService) {}
+
+  @Post('emitir')
+  async emitir(@Body() payload: any) {
+    // payload incluye usarImpresora boolean
+    return this.dte.emitirDte(payload);
   }
 }

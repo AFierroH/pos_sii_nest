@@ -7,5 +7,6 @@ import { PrismaService } from '../prisma.service';
 @Module({
   controllers: [DteController],
   providers: [DteService, PrismaService],
+  exports: [DteService],
 })
 export class DteModule {}

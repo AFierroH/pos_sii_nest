@@ -1,11 +1,12 @@
-// Declara controlador y servicio para venta
+// src/venta/venta.module.ts
 import { Module } from '@nestjs/common';
-import { VentaService } from './venta.service';
 import { VentaController } from './venta.controller';
-import { PrismaService } from '../prisma.service';
+import { VentaService } from './venta.service';
+import { DteModule } from '../dte/dte.module';
 
 @Module({
+  imports: [DteModule],
   controllers: [VentaController],
-  providers: [VentaService, PrismaService],
+  providers: [VentaService],
 })
 export class VentaModule {}
