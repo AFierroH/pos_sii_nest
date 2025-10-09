@@ -56,15 +56,26 @@
         </div>
 
         <!-- Preview ticket entero -->
-        <div v-if="ventaResult && !usarImpresora" class="mt-6 p-4 bg-white text-black font-mono text-sm rounded shadow">
-          <h4 class="mb-2 font-bold">Ticket (preview)</h4>
-          <div v-for="(line,i) in ventaResult.ticket" :key="i">
-            <!-- si es imagen -->
-            <img v-if="typeof line === 'object' && line.type === 'image'" :src="line.data" class="mx-auto my-2"/>
-            <!-- si es texto -->
-            <div v-else>{{ line }}</div>
-          </div>
-        </div>
+        <!-- Preview ticket entero -->
+<div v-if="ventaResult && !usarImpresora" class="mt-6 p-4 bg-white text-black font-mono text-sm rounded shadow">
+  <h4 class="mb-2 font-bold">Ticket (preview)</h4>
+
+  <!-- Mostrar boleta como imagen completa -->
+  <div v-if="ventaResult.boletaBase64">
+    <img :src="'data:image/png;base64,' + ventaResult.boletaBase64" class="mx-auto border my-2"/>
+  </div>
+
+  <!-- Mostrar ticket línea a línea (texto o imágenes sueltas) -->
+  <div v-else>
+    <div v-for="(line,i) in ventaResult.ticket" :key="i">
+      <!-- si es imagen -->
+      <img v-if="typeof line === 'object' && line.type === 'image'" :src="line.data" class="mx-auto my-2"/>
+      <!-- si es texto -->
+      <div v-else>{{ line }}</div>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   </div>
@@ -117,48 +128,51 @@ function clear(){ cart.value = []; ventaResult.value = null }
 
 const total = computed(()=>cart.value.reduce((a,b)=>a+b.subtotal,0))
 
-async function checkout(){
-  if(cart.value.length===0){ alert('Carrito vacío'); return; }
+async function checkout() {
+  if (cart.value.length === 0) {
+    console.warn('Carrito vacío')
+    return
+  }
 
-  const detalles = cart.value.map(i=>({
+  const detalles = cart.value.map(i => ({
     id_producto: i.id_producto,
     cantidad: i.cantidad,
-    precio_unitario: i.precio
+    precio_unitario: i.precio,
+    nombre: i.nombre
   }))
 
   try {
-    const resp = await emitirDte({ 
-      id_usuario: 1, 
-      id_empresa: 1, 
-      total: total.value, 
+    const resp = await emitirDte({
+      id_usuario: 1,
+      id_empresa: 1,
+      total: total.value,
       detalles,
       usarImpresora: usarImpresora.value
     })
-    const { ticket, pdf417Base64, tedXml, venta } = resp.data
-    ventaResult.value = { ticket, pdf417Base64, venta }
+
+    const { ticket, pdf417Base64, tedXml, venta, boletaBase64 } = resp.data
+    ventaResult.value = { ticket, pdf417Base64, venta, boletaBase64 }
 
     // imprimir con QZ Tray solo si usarImpresora
-    if(usarImpresora.value && window.qz){
-      const qz = window.qz
-      if(!qz.websocket.isActive()) await qz.websocket.connect()
-      const impresora = selectedPrinter.value || (await qz.printers.find())
-      const cfg = qz.configs.create(impresora)
-      await qz.print(cfg, ticket)
-    }
+    if (usarImpresora.value && window.qz) {
+  const qz = window.qz
+  if (!qz.websocket.isActive()) await qz.websocket.connect()
+  const impresora = selectedPrinter.value || (await qz.printers.getDefault()) // impresora por defecto
+  const cfg = qz.configs.create(impresora) // sin firma, simple
+  await qz.print(cfg, ventaResult.value.ticket) // ticket = array ESC/POS
+}
 
-    // opcional: descargar XML
-    const blob = new Blob([tedXml], { type: 'application/xml' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a'); a.href = url; a.download = `TED_${venta.id_venta}.xml`; a.click()
-    URL.revokeObjectURL(url)
 
-    alert('Venta registrada' + (usarImpresora.value ? ' y ticket enviado a la impresora' : ''))
-    clear()
+    // log en consola en vez de popup
+    console.log(`Venta ${venta.id_venta} registrada`)
+
+    // limpiar solo carrito (mantiene la boleta en pantalla)
+    cart.value = []
   } catch (err) {
     console.error('checkout error', err)
-    alert('Error al emitir DTE')
   }
 }
+
 
 onMounted(search)
 </script>

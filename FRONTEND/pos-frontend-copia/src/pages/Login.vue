@@ -25,7 +25,7 @@ async function doLogin(){
   try {
     const res = await login({ email, password })
     const tok = res.data.access_token || res.data.token
-    const user = { email } // ideally backend returns user
+    const user = { email } 
     auth.setSession(user, tok)
     router.push('/')
   } catch(e){
