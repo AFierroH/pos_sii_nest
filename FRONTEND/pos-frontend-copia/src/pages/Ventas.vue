@@ -15,6 +15,9 @@
           </button>
 
           <div class="ml-auto flex items-center gap-2">
+            <button @click="testPrint" class="px-3 py-2 bg-blue-500 rounded text-black">
+  Probar impresión
+</button>
             <button @click="loadPrinters" class="px-3 py-2 bg-[var(--accent)] rounded text-black">
               Listar impresoras
             </button>
@@ -85,15 +88,16 @@
         >
           <h4 class="mb-2 font-bold">Ticket (preview)</h4>
 
-          <div v-if="ventaResult.boletaBase64">
+          <div v-if="ventaResult.value.boletaBase64">
             <img
-              :src="'data:image/png;base64,' + ventaResult.boletaBase64"
-              class="mx-auto border my-2"
-            />
+  :src="`data:image/png;base64,${ventaResult.value.boletaBase64}`"
+  alt="Boleta"
+  class="border rounded-lg"
+/>
           </div>
 
           <div v-else>
-            <div v-for="(line, i) in ventaResult.ticket" :key="i">
+            <div v-for="(line, i) in ventaResult.value.boletaBase64" :key="i">
               <img
                 v-if="typeof line === 'object' && line.type === 'image'"
                 :src="line.data"
@@ -110,7 +114,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { fetchProducts, emitirDte } from '../api'
+import { fetchProducts, emitirDtem } from '../api'
 
 const scan = ref('')
 const q = ref('')
@@ -167,39 +171,118 @@ function clear() {
 const total = computed(() => cart.value.reduce((a, b) => a + b.subtotal, 0))
 
 // Emitir boleta o ticket
-async function checkout() {
+/* async function checkout() {
   if (cart.value.length === 0) return alert('Carrito vacío')
+
   const detalles = cart.value.map(i => ({
     id_producto: i.id_producto,
     cantidad: i.cantidad,
     precio_unitario: i.precio,
     nombre: i.nombre
   }))
+
   try {
-    const payload = {
-      productos: cart.value.map(it => ({
-        id: it.id_producto,
-        cantidad: it.cantidad
-      })),
+    const data = await emitirDte({
+      productos: cart.value.map(it => ({ id: it.id_producto, cantidad: it.cantidad })),
       total: total.value,
       detalles,
       usarImpresora: usarImpresora.value,
-      impresora: selectedPrinter.value
-    }
+      printerIp: "192.168.200.169",
+      printerPort: 9100
+    })
 
-    const data = await emitirDte(payload)
     ventaResult.value = data
     alert('Venta emitida correctamente')
 
-    if (usarImpresora.value && window.electronAPI?.printBase64) {
-      await window.electronAPI.printBase64(
-        selectedPrinter.value,
-        data.boletaBase64
-      )
+    // Si hay impresora y ticket
+    if (usarImpresora.value && data.ticketBase64) {
+      try {
+        const printResp = await window.electronAPI.printRaw(
+          data.ticketBase64,
+          { ip: '192.168.200.169', port: 9100 }
+        );
+        console.log('🖨️ Resultado impresión:', printResp);
+      } catch (err) {
+        console.error('❌ Error al imprimir desde Electron:', err);
+      }
     }
+
   } catch (e) {
     console.error('Error al emitir DTE:', e)
     alert('Error al procesar venta')
+  }
+} */
+async function checkout() {
+  if (cart.value.length === 0) return alert('Carrito vacío')
+
+  const detalles = cart.value.map(i => ({
+    id_producto: i.id_producto,
+    cantidad: i.cantidad,
+    precio_unitario: i.precio,
+    nombre: i.nombre
+  }))
+
+  try {
+    
+const data = await emitirDte({
+  productos: cart.value.map(it => ({ id: it.id_producto, cantidad: it.cantidad })),
+  total: total.value,
+  detalles,
+  usarImpresora: usarImpresora.value,
+  printerIp: "192.168.200.169",
+  printerPort: 9100
+});
+
+if (!data || !data.data) {
+  alert('No se recibió respuesta válida del backend');
+  return;
+}
+
+ventaResult.value = data.data;
+
+if (usarImpresora.value && ventaResult.value.ticketBase64) {
+  try {
+    const printResp = await window.electronAPI.printRaw(
+      ventaResult.value.ticketBase64,
+      { ip: '192.168.200.169', port: 9100 }
+    );
+    console.log('Resultado impresión:', printResp);
+  } catch (err) {
+    console.error('Error al imprimir desde Electron:', err);
+    alert('Error al imprimir. Revisa consola.');
+  }
+}
+
+  } catch (e) {
+    console.error('Error al emitir DTE:', e)
+    alert('Error al procesar venta')
+  }
+}
+
+function hexToBase64(hex) {
+  const bytes = [];
+  for (let c = 0; c < hex.length; c += 2)
+    bytes.push(parseInt(hex.substr(c, 2), 16));
+  const bin = String.fromCharCode(...bytes);
+  return btoa(bin);
+}
+
+async function testPrint() {
+  try {
+    const base64Ticket = hexToBase64(
+      "1B4068656C6C6F20776F726C640A1D564200" // "hello world" en ESC/POS
+    );
+
+    const result = await window.electronAPI.printRaw(base64Ticket, {
+      ip: "192.168.200.169",
+      port: 9100
+    });
+
+    console.log("Resultado impresión:", result);
+    alert("✅ Ticket de prueba enviado a la impresora.");
+  } catch (err) {
+    console.error("Error al imprimir:", err);
+    alert("Error al imprimir. Revisa consola.");
   }
 }
 

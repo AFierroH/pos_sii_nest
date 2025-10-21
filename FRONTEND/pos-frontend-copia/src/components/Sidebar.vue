@@ -23,12 +23,19 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+defineProps({ user: Object })
 const items = [
   { key:'dashboard', title:'Dashboard', route:'/dashboard' },
   { key:'ventas', title:'Ventas', route:'/ventas' },
-  { key:'productos', title:'Productos', route:'/productos' },
-  { key:'estadisticas', title:'Estadísticas', route:'/estadisticas' },
-  { key:'config', title:'Configuración', route:'/config' },
+  { key:'productos', title:'Productos', route:'/productos', adminOnly: true  },
+  { key:'estadisticas', title:'Estadísticas', route:'/estadisticas', adminOnly: true  },
+  { key:'config', title:'Configuración', route:'/config', adminOnly: true  },
   { key:'impresora', title:'Prueba', route:'/impresora' }
 ]
+const filteredItems = computed(() =>
+  user?.rol === 'admin'
+    ? items
+    : items.filter(i => !i.adminOnly)
+)
 </script>

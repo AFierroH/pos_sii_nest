@@ -697,7 +697,7 @@ export class DteService {
       ciudad: "Araucanía",
       telefono: "+56 45 2123456",
       correo: "contacto@temuco-demo.cl",
-      logo: "https://picsum.photos/100/100"};
+      logo: ""};
     const fecha = new Date().toLocaleString('es-CL', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
     const venta = { id_venta: Math.floor(Math.random()*99999), fecha, total, id_usuario, id_empresa, detalles };
     const neto = Math.round(total / 1.19);
@@ -749,7 +749,7 @@ export class DteService {
 
     const payloadBuffer = Buffer.concat(buffers);
 
-    // Generar preview PNG (igual que tenías)
+/*     // Generar preview PNG (igual que tenías)
     const width = 570;
     const lineHeight = 20;
     const height = 300 + detalles.length * lineHeight;
@@ -784,13 +784,13 @@ export class DteService {
     ctx.font='bold 14px Arial';
     ctx.fillText(`TOTAL: $${venta.total}`, 10, y);
 
-    const pngBuffer = canvas.toBuffer('image/png');
+    const pngBuffer = canvas.toBuffer('image/png'); */
 
     // Retornamos los bytes del ticket en base64 (para que el cliente/Electron los imprima)
     return {
-      usarImpresora: false, // backend ya no intenta imprimir
+      usarImpresora: true, // backend ya no intenta imprimir
       venta,
-      boletaBase64: pngBuffer.toString('base64'),
+      boletaBase64: payloadBuffer.toString('base64'),
       ticketBase64: payloadBuffer.toString('base64') // ESC/POS raw en base64
     };
   }

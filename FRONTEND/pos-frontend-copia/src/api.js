@@ -14,6 +14,13 @@ export async function fetchTopProducts(){ return api.get('/estadisticas/producto
 export async function fetchSalesRange(inicio, fin){ return api.get(`/estadisticas/ingresos-por-fecha?inicio=${inicio}&fin=${fin}`) }
 export async function fetchProducts(q=''){ return api.get(`/productos?search=${encodeURIComponent(q)}`) } // backend: implement endpoint
 export async function emitirDte(payload){ return api.post('/dte/emitir', payload) }
+export async function emitirVenta(payload) {
+  return fetch('/ventas/emitir', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  }).then(res => res.json());
+}
 export default api
 
 // Funciones para conectar e imprimir con QZ Tray

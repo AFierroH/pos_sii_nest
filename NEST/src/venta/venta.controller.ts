@@ -8,6 +8,6 @@ export class VentaController {
   @Post('emitir')
   async emitirVenta(@Body() body: any) {
     // body debe incluir: id_usuario, id_empresa, total, detalles, pagos?, usarImpresora?
-    return this.ventaService.crearVentaSimulada(body);
+    return this.ventaService.emitirVentaCompleta(body);
   }
 }
