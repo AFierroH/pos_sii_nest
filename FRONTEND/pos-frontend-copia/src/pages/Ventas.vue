@@ -114,7 +114,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { fetchProducts, emitirDtem } from '../api'
+import { fetchProducts, emitirDte } from '../api'
 
 const scan = ref('')
 const q = ref('')

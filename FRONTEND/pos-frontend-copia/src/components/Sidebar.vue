@@ -31,6 +31,7 @@ const items = [
   { key:'productos', title:'Productos', route:'/productos', adminOnly: true  },
   { key:'estadisticas', title:'Estadísticas', route:'/estadisticas', adminOnly: true  },
   { key:'config', title:'Configuración', route:'/config', adminOnly: true  },
+  { key:'usuarios', title:'Usuarios', route:'/usuarios' },
   { key:'impresora', title:'Prueba', route:'/impresora' }
 ]
 const filteredItems = computed(() =>

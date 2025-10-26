@@ -1,7 +1,6 @@
-// Declara controlador y servicio para usuario
 import { Module } from '@nestjs/common';
-import { UsuarioService } from './usuario.service';
 import { UsuarioController } from './usuario.controller';
+import { UsuarioService } from './usuario.service';
 import { PrismaService } from '../prisma.service';
 
 @Module({

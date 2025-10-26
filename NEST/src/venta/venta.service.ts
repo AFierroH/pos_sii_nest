@@ -71,7 +71,7 @@ async emitirDte(payload: any) {
       buffersArr.push(Buffer.concat([ textBuf(before), Buffer.from('@'), textBuf(after + '\n') ]));
     }
 
-    // Build ESC/POS bytes (igual que tenías)
+    // bytes escpos
     buffers.push(esc([0x1B,0x40]));
     buffers.push(esc([0x1C,0x2E]));
     buffers.push(esc([0x1B,0x74,0x12]));
@@ -148,12 +148,9 @@ async emitirDte(payload: any) {
       ticketBase64: payloadBuffer.toString('base64') // ESC/POS raw en base64
     };
   }
-  // ...existing code...
 async emitirVentaCompleta(payload: any) {
-  // 1. Registrar la venta en la base de datos
   const ventaDb = await this.crearVenta(payload);
 
-  // 2. Generar el ticket/boleta usando los datos reales de la venta
   const dtePayload = {
     ...payload,
     detalles: ventaDb.detalle_venta.map(d => ({
@@ -168,7 +165,6 @@ async emitirVentaCompleta(payload: any) {
   };
   const ticket = await this.emitirDte(dtePayload);
 
-  // 3. Retornar ambos resultados
   return {
     venta: ventaDb,
     ticket,

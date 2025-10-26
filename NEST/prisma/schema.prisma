@@ -22,14 +22,20 @@ model empresa {
   ventas       venta[]
 }
 
+enum Rol {
+  admin
+  vendedor
+  analista
+}
+
 model usuario {
   id_usuario Int      @id @default(autoincrement())
   nombre     String
   email      String   @unique
   clave      String
-  rol        String
-  id_empresa Int
-  empresa    empresa  @relation(fields: [id_empresa], references: [id_empresa])
+  rol        Rol?     @map("rol") 
+  id_empresa Int?
+  empresa    empresa? @relation(fields: [id_empresa], references: [id_empresa])
   ventas     venta[]
   historial  historial_productos[]
 }

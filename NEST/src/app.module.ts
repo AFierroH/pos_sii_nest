@@ -1,4 +1,3 @@
-// Módulo raíz donde se importan todos los demás módulos
 import { AppController } from './app.controller';
 import { DteModule } from './dte/dte.module';
 import { AppService } from './app.service';
@@ -7,11 +6,14 @@ import { EmpresaModule } from './empresa/empresa.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { VentaModule } from './venta/venta.module';
 import { ProductoModule } from './producto/producto.module';
-import { PrismaService } from './prisma.service';
+import { PrismaModule } from './prisma.module';
+import { AuthModule } from './auth/auth.module';
+import { EstadisticasModule } from './estadisticas/estadisticas.module';
+
 
 @Module({
-  imports: [EmpresaModule, UsuarioModule, VentaModule, DteModule, ProductoModule],
+  imports: [PrismaModule, EmpresaModule, UsuarioModule, VentaModule, DteModule, ProductoModule, AuthModule, EstadisticasModule],
   controllers: [AppController],
-  providers: [PrismaService, AppService], 
+  providers: [AppService], 
 })
 export class AppModule {}

@@ -1,7 +1,6 @@
-// Declara controlador y servicio para empresa
 import { Module } from '@nestjs/common';
-import { ProductoService } from './producto.service';
 import { ProductoController } from './producto.controller';
+import { ProductoService } from './producto.service';
 import { PrismaService } from '../prisma.service';
 
 @Module({
