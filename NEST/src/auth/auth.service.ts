@@ -6,7 +6,7 @@ export class AuthService {
   constructor(private readonly prisma: PrismaService) {}
 
   async validateUser(email: string, clave: string) {
-    console.log('🔍 Buscando usuario:', email, clave);
+    console.log('Buscando usuario:', email, clave);
 
     const user = await this.prisma.usuario.findFirst({
       where: { email, clave },

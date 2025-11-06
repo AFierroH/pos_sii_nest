@@ -7,7 +7,7 @@ const emit = defineEmits(['login-success'])
 let email = ''
 let clave = '' // 🔹 Cambiado de "password" a "clave"
 
-function createSession(user, token, minutes = 5) {
+function createSession(user, token, minutes = 60) {
   const expiresAt = new Date(Date.now() + minutes * 60 * 1000).toISOString()
   const session = { user, token, expiresAt }
   localStorage.setItem('session', JSON.stringify(session))

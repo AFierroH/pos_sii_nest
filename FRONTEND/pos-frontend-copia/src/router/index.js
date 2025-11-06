@@ -7,6 +7,7 @@ import Productos from '../pages/Productos.vue'
 import Configuracion from '../pages/Configuracion.vue'
 import printTest from '../pages/PruebaImpresora.vue'
 import Usuarios from '../pages/Usuarios.vue'
+import Importer from '../pages/Importer.vue'
 const routes = [
   { path: '/', redirect: '/dashboard' },
   { path: '/dashboard', component: Dashboard },
@@ -15,6 +16,7 @@ const routes = [
   { path: '/productos', component: Productos },
   { path: '/config', component: Configuracion },
   { path: '/impresora', component: printTest },
+  { path: '/importer', component: Importer },
   { path: '/usuarios', component: Usuarios }
 ]
 

@@ -1,5 +1,3 @@
-// Pequeño store local para usuario/token (sin Pinia, simple JS module).
-// Mantiene token y user y helpers login/logout para facilitar la integración.
 export const auth = {
   user: JSON.parse(localStorage.getItem('user') || 'null'),
   token: localStorage.getItem('token') || null,
