@@ -1,98 +1,127 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+<a href="#" target="blank"><img src="https://www.google.com/search?q=https://placehold.co/120x120/8E44AD/FFF%3Ftext%3DPOS-SII" width="120" alt="POS-SII Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+<h1>Proyecto: Punto de Venta (POS) con Integración SII</h1>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+<p align="center">
+Una aplicación Full-Stack (NestJS + React) para la gestión de puntos de venta.
+</p>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<p align="center">
+<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/backend-NestJS-red.svg" alt="Backend NestJS" /></a>
+<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/frontend-React%2520%252B%2520Vite-blue.svg" alt="Frontend React + Vite" /></a>
+<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/database-MySQL%2520%252B%2520Prisma-cyan.svg" alt="Database MySQL + Prisma" /></a>
+<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/status-En%2520Pruebas%2520(rama%2520tests)-yellow.svg" alt="Status" /></a>
+<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/license-MIT-blue.svg" alt="Package License" /></a>
+</p>
 
-## Project setup
+Descripción
 
-```bash
-$ npm install
-```
+Este repositorio contiene la aplicación principal del Punto de Venta (POS), un sistema full-stack diseñado para la gestión de ventas, inventario, usuarios y la futura integración con el Servicio de Impuestos Internos (SII) de Chile.
 
-## Compile and run the project
+Este proyecto sirve como el núcleo central que consume las librerías compartidas de frontend y backend, consolidando la lógica de negocio en una aplicación cohesiva.
 
-```bash
-# development
-$ npm run start
+Módulos y Características Principales
 
-# watch mode
-$ npm run start:dev
+Gestión de Ventas: Creación de boletas/facturas, registro de ventas, múltiples formas de pago.
 
-# production mode
-$ npm run start:prod
-```
+Control de Inventario: Gestión de producto, categoria. Control de stock en tiempo real.
 
-## Run tests
+Gestión de Usuarios: Autenticación y Autorización basada en Roles (admin, vendedor).
 
-```bash
-# unit tests
-$ npm run test
+Módulo de Importación: Funcionalidad avanzada para importar datos masivos desde archivos SQL, incluyendo parseo, mapeo de columnas y carga en la base de datos (ver ImportModule).
 
-# e2e tests
-$ npm run test:e2e
+Reportería: (Próximamente) Generación de reportes de ventas diarias, productos más vendidos, etc.
 
-# test coverage
-$ npm run test:cov
-```
+Arquitectura y Decisiones de Diseño
 
-## Deployment
+La arquitectura del proyecto se basa en un monorepo (gestionado localmente) que separa el backend (NestJS) y el frontend (Vite), pero los mantiene en el mismo repositorio para facilitar el desarrollo.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Una decisión de diseño clave fue externalizar la lógica común a librerías privadas, permitiendo que esta aplicación principal se enfoque en la orquestación y la lógica de negocio específica.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Componentes de la Arquitectura
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+/pos_sii_nest (Este Repositorio)
+|
+|-- /src (Backend - NestJS)
+|   |-- /import (Módulo de Importación SQL)
+|   |-- /ventas (Módulo de Ventas)
+|   |-- /auth (Módulo de Autenticación)
+|   |-- ...
+|   `-- (Consume `nest_privado` para lógica común)
+|
+|-- /frontend (Frontend - Vite + React)
+|   |-- /pages
+|   |-- /components
+|   `-- (Consume `vite_privado` para UI y hooks)
+|
+|-- (Dependencias Externas)
+|   |
+|   |-- Librería Backend: [AFierroH/nest_privado](https://github.com/AFierroH/nest_privado)
+|   |   (Provee PrismaService, DTOs comunes, Guards)
+|   |
+|   `-- Librería Frontend: [AFierroH/vite_privado](https://github.com/AFierroH/vite_privado)
+|       (Provee Componentes UI, Hooks de API, Instancia de Axios)
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
-## Resources
+Justificación de Tecnologías
 
-Check out a few resources that may come in handy when working with NestJS:
+Backend (NestJS): Se eligió NestJS por su arquitectura modular y escalable (basada en Angular), su excelente integración con TypeScript y su sistema de Inyección de Dependencias, lo cual facilita la creación de aplicaciones robustas y mantenibles, ideal para un sistema POS.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Frontend (Vite + React): Se optó por Vite por su velocidad de desarrollo (HMR instantáneo) y React por su ecosistema maduro y su modelo de componentes, que se alinea perfectamente con la librería vite_privado.
 
-## Support
+Base de Datos (MySQL + Prisma): Se seleccionó MySQL por ser una base de datos relacional robusta y probada. Prisma se utiliza como ORM para garantizar la seguridad de tipos (Type-Safety) entre la base de datos y el código de NestJS, simplificando drásticamente las consultas y las migraciones.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Librerías Privadas (nest_privado, vite_privado): Esta fue una decisión de diseño estratégica para cumplir con el principio D.R.Y. (Don't Repeat Yourself) y sentar las bases para un futuro crecimiento (ej. una app móvil o un dashboard de admin separado) sin duplicar código.
 
-## Stay in touch
+Despliegue y Pruebas (Branch tests)
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Este repositorio utiliza un flujo de Git estándar.
 
-## License
+main: Versión estable (producción).
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+develop: Rama de integración para nuevas características.
+
+tests: (Rama actual) Se utiliza para el desarrollo y prueba de características específicas, como el importador de datos SQL y la refactorización a librerías compartidas, antes de integrarlas a develop.
+
+Configuración del Entorno de Desarrollo
+
+Clonar los 3 repositorios en un mismo directorio:
+
+git clone [https://github.com/AFierroH/pos_sii_nest.git](https://github.com/AFierroH/pos_sii_nest.git)
+git clone [https://github.com/AFierroH/nest_privado.git](https://github.com/AFierroH/nest_privado.git)
+git clone [https://github.com/AFierroH/vite_privado.git](https://github.com/AFierroH/vite_privado.git)
+
+
+Instalar dependencias en los 3 proyectos (npm install).
+
+"Enlazar" las dependencias privadas. Desde pos_sii_nest:
+
+npm install ../nest_privado
+npm install ./frontend/ ../vite_privado 
+# (Asumiendo que vite_privado se instala dentro de la carpeta /frontend)
+
+
+Configurar el backend (/pos_sii_nest):
+
+Crear el archivo .env basado en .env.example.
+
+Definir la DATABASE_URL.
+
+Correr migraciones: npx prisma migrate dev
+
+Ejecutar el proyecto:
+
+# En /pos_sii_nest (para el backend)
+npm run start:dev
+
+# En /pos_sii_nest/frontend (para el frontend)
+npm run dev
+
+
+License
+
+Este proyecto es MIT licensed.
