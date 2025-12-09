@@ -1,0 +1,28 @@
+object Form1: TForm1
+  Left = 1384
+  Height = 211
+  Top = 203
+  Width = 320
+  Caption = 'Form1'
+  ClientHeight = 211
+  ClientWidth = 320
+  LCLVersion = '4.4.0.0'
+  object btnLAN: TButton
+    Left = 40
+    Height = 25
+    Top = 32
+    Width = 96
+    Caption = 'Imprimir LAN'
+    TabOrder = 0
+    OnClick = btnLANClick
+  end
+  object btnUSB: TButton
+    Left = 192
+    Height = 25
+    Top = 32
+    Width = 96
+    Caption = 'Imprimir USB'
+    TabOrder = 1
+    OnClick = btnUSBClick
+  end
+end

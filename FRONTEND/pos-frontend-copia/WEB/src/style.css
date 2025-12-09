@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  /* === MODO CLARO (Día) === */
+  --bg-deep: #F3F4F6;       
+  --panel: #FFFFFF;         
+  --sidebar-bg: #FFFFFF;    /* Sidebar blanca en modo día */
+  --border: #E5E7EB;        
+  
+  --text-primary: #1F2937;  /* Gris oscuro (no negro puro) para leer mejor */
+  --text-secondary: #6B7280;
+  --text-inverse: #FFFFFF; 
+
+  --input-bg: #FFFFFF;      
+  --input-border: #D1D5DB;  
+
+  /* Azul más brillante y amigable para modo claro */
+  --accent: #3B82F6;        /* Blue-500 */
+  --accent-hover: #2563EB;  /* Blue-600 */
+  --text-on-accent: #FFFFFF;
+
+  --scrollbar-thumb: #9CA3AF;
+}
+
+.dark {
+  /* === MODO OSCURO (Noche) === */
+  --bg-deep: #020617;       
+  --panel: #0F172A;         /* Azul noche */
+  --sidebar-bg: #0B1221;    /* Tu color original de sidebar */
+  --border: #1E293B;        
+  
+  --text-primary: #F9FAFB;  
+  --text-secondary: #9CA3AF;
+  --text-inverse: #000000;  
+
+  --input-bg: #1E293B;      
+  --input-border: #334155;
+
+  --accent: #60A5FA;        /* Azul neón suave */
+  --accent-hover: #3B82F6;
+  --text-on-accent: #000000; /* Contraste alto */
+
+  --scrollbar-thumb: #475569;
+}
+
+/* --- BASE --- */
+body {
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* --- ESTILOS GLOBALES DE BOTONES (Para que todos se vean igual) --- */
+button.btn-primary {
+  background-color: var(--accent);
+  color: var(--text-on-accent);
+  transition: background-color 0.2s;
+}
+button.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }

@@ -2,7 +2,7 @@
 /dist
 /node_modules
 /build
-
+/certificados
 # Logs
 logs
 *.log
@@ -41,7 +41,7 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 .env.local
-
+.env.production
 # temp directory
 .temp
 .tmp

@@ -6,8 +6,18 @@ export class ProductoController {
   constructor(private readonly productoService: ProductoService) {}
 
   @Get()
-  async getProductos(@Query('search') search?: string) {
-    return this.productoService.getProductos(search);
+  async getAll(
+    @Query('search') search: string,
+    @Query('empresaId') empresaId: string,
+    @Query('page') page: string,   // <--- NUEVO
+    @Query('limit') limit: string  // <--- NUEVO
+  ) {
+    const id = empresaId ? parseInt(empresaId) : undefined;
+    // Convertimos a número, con valores por defecto (página 1, 20 productos por carga)
+    const pageNum = page ? parseInt(page) : 1;
+    const limitNum = limit ? parseInt(limit) : 20;
+
+    return this.productoService.getProductos(search, id, pageNum, limitNum);
   }
 
   @Post()

@@ -1,0 +1,57 @@
+{
+  "name": "pos-electron-cliente",
+  "productName": "Mi POS",
+  "version": "1.1.11",
+  "description": "Cliente de escritorio para POS",
+  "main": "electron.js",
+  "type": "module",
+  "scripts": {
+    "start": "node node_modules/electron/cli.js .",
+    "dev": "concurrently \"wait-on http://localhost:5173 && electron .\"",
+    "version-up": "npm version patch --no-git-tag-version",
+    "build": "npm run version-up && electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.mipos.app",
+    "productName": "Mi POS",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron.js",
+      "preload.cjs",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  },
+  "dependencies": {
+    "bwip-js": "^4.8.0",
+    "escpos": "^3.0.0-alpha.6",
+    "escpos-network": "^3.0.0-alpha.5",
+    "escpos-usb": "^3.0.0-alpha.4",
+    "fs-extra": "^11.3.2",
+    "iconv-lite": "^0.7.0",
+    "jimp": "^0.16.13",
+    "pdf-to-printer": "^5.6.1",
+    "pdfkit": "^0.17.2",
+    "pngjs": "^7.0.0",
+    "usb": "^1.8.3"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "wait-on": "^8.0.1"
+  }
+}
