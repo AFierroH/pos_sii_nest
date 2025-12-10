@@ -1,7 +1,6 @@
 <p align="center">
 <a href="https://miposra.site" target="blank">
-<!-- Opción A: Asegúrate de tener logo.png en la raíz de tu repo -->
-<img src="./logo.png" width="150" alt="POS-SII Logo" />
+<img src="./logopos.png" width="150" alt="POS-SII Logo" />
 </a>
 </p>
 
