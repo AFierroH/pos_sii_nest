@@ -1,127 +1,148 @@
 <p align="center">
-<a href="#" target="blank"><img src="https://www.google.com/search?q=https://placehold.co/120x120/8E44AD/FFF%3Ftext%3DPOS-SII" width="120" alt="POS-SII Logo" /></a>
+<a href="https://miposra.site" target="blank">
+<!-- Opción A: Asegúrate de tener logo.png en la raíz de tu repo -->
+<img src="./logo.png" width="150" alt="POS-SII Logo" />
+</a>
+</p>
+
+<h1 align="center">POS Integrado: Sistema de Ventas con Facturación Electrónica (SII)</h1>
+
+<p align="center">
+Una solución Full-Stack (Web & Desktop) para la gestión integral de PyMEs en Chile, integrando control de hardware térmico y normativa tributaria.
 </p>
 
 <p align="center">
-<h1>Proyecto: Punto de Venta (POS) con Integración SII</h1>
+<a href="https://nestjs.com/" target="_blank">
+<img src="https://img.shields.io/badge/Backend-NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white" alt="NestJS" />
+</a>
+<a href="https://vuejs.org/" target="blank">
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/Frontend-Vue.js_3+_Vite-4FC08D?style=flat-square&logo=vue.js&logoColor=white" alt="Vue.js" />
+</a>
+<a href="https://www.electronjs.org/" target="_blank">
+<img src="https://img.shields.io/badge/Desktop-Electron-47848F?style=flat-square&logo=electron&logoColor=white" alt="Electron" />
+</a>
+<a href="https://www.mysql.com/" target="blank">
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/Database-MySQL+_Prisma-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL" />
+</a>
+<a href="https://hii.sii.cl/" target="_blank">
+<img src="https://img.shields.io/badge/Integración-SII_Chile-blue?style=flat-square" alt="SII Chile" />
+</a>
 </p>
 
-<p align="center">
-Una aplicación Full-Stack (NestJS + React) para la gestión de puntos de venta.
-</p>
+📋 Descripción del Proyecto
 
-<p align="center">
-<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/backend-NestJS-red.svg" alt="Backend NestJS" /></a>
-<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/frontend-React%2520%252B%2520Vite-blue.svg" alt="Frontend React + Vite" /></a>
-<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/database-MySQL%2520%252B%2520Prisma-cyan.svg" alt="Database MySQL + Prisma" /></a>
-<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/status-En%2520Pruebas%2520(rama%2520tests)-yellow.svg" alt="Status" /></a>
-<a href="#" target="_blank"><img src="https://www.google.com/search?q=https://img.shields.io/badge/license-MIT-blue.svg" alt="Package License" /></a>
-</p>
+Este repositorio aloja el desarrollo principal de mi Práctica Profesional, un sistema Punto de Venta (POS) robusto diseñado para cerrar la brecha tecnológica en las pequeñas y medianas empresas.
 
-Descripción
+El sistema no es solo un gestor de inventario; es una suite de ingeniería de software que resuelve tres problemas críticos:
 
-Este repositorio contiene la aplicación principal del Punto de Venta (POS), un sistema full-stack diseñado para la gestión de ventas, inventario, usuarios y la futura integración con el Servicio de Impuestos Internos (SII) de Chile.
+Integración de Hardware: Comunicación nativa con impresoras térmicas (XPrinter) mediante protocolos ESC/POS vía USB y LAN.
 
-Este proyecto sirve como el núcleo central que consume las librerías compartidas de frontend y backend, consolidando la lógica de negocio en una aplicación cohesiva.
+Cumplimiento Tributario: Emisión automática de Boletas Electrónicas válidas ante el SII (vía SimpleAPI), generando XMLs firmados y timbres electrónicos PDF417.
 
-Módulos y Características Principales
+Arquitectura Híbrida: Funciona como aplicación Web (para administración remota) y como aplicación de Escritorio (Electron) para el punto de venta físico con acceso a hardware.
 
-Gestión de Ventas: Creación de boletas/facturas, registro de ventas, múltiples formas de pago.
+🚀 Demo en Vivo (Producción)
 
-Control de Inventario: Gestión de producto, categoria. Control de stock en tiempo real.
+El sistema se encuentra desplegado y funcional. Puedes probarlo registrando una cuenta nueva (role user/vendedor por defecto).
 
-Gestión de Usuarios: Autenticación y Autorización basada en Roles (admin, vendedor).
+🔗 URL: https://miposra.site
 
-Módulo de Importación: Funcionalidad avanzada para importar datos masivos desde archivos SQL, incluyendo parseo, mapeo de columnas y carga en la base de datos (ver ImportModule).
+⚙️ Arquitectura Técnica
 
-Reportería: (Próximamente) Generación de reportes de ventas diarias, productos más vendidos, etc.
+El proyecto utiliza una arquitectura de Monorepo Híbrido, consumiendo librerías privadas compartidas para mantener el principio DRY (Don't Repeat Yourself).
 
-Arquitectura y Decisiones de Diseño
+Stack Tecnológico
 
-La arquitectura del proyecto se basa en un monorepo (gestionado localmente) que separa el backend (NestJS) y el frontend (Vite), pero los mantiene en el mismo repositorio para facilitar el desarrollo.
+Backend: NestJS (Node.js) - Arquitectura modular, Guards, DTOs y Servicios.
 
-Una decisión de diseño clave fue externalizar la lógica común a librerías privadas, permitiendo que esta aplicación principal se enfoque en la orquestación y la lógica de negocio específica.
+Frontend: Vue 3 + Vite + TailwindCSS - Interfaz reactiva y rápida.
 
-Componentes de la Arquitectura
+Desktop: Electron - Wrapper para acceso nativo a puertos USB (WinUSB/Libusb).
 
-/pos_sii_nest (Este Repositorio)
-|
-|-- /src (Backend - NestJS)
-|   |-- /import (Módulo de Importación SQL)
-|   |-- /ventas (Módulo de Ventas)
-|   |-- /auth (Módulo de Autenticación)
-|   |-- ...
-|   `-- (Consume `nest_privado` para lógica común)
-|
-|-- /frontend (Frontend - Vite + React)
-|   |-- /pages
-|   |-- /components
-|   `-- (Consume `vite_privado` para UI y hooks)
-|
-|-- (Dependencias Externas)
-|   |
-|   |-- Librería Backend: [AFierroH/nest_privado](https://github.com/AFierroH/nest_privado)
-|   |   (Provee PrismaService, DTOs comunes, Guards)
-|   |
-|   `-- Librería Frontend: [AFierroH/vite_privado](https://github.com/AFierroH/vite_privado)
-|       (Provee Componentes UI, Hooks de API, Instancia de Axios)
+Base de Datos: MySQL gestionado con Prisma ORM.
 
+Módulos Principales
 
-Justificación de Tecnologías
+Ventas & Caja: Interfaz optimizada para pantallas táctiles, carrito reactivo y cálculos en tiempo real.
 
-Backend (NestJS): Se eligió NestJS por su arquitectura modular y escalable (basada en Angular), su excelente integración con TypeScript y su sistema de Inyección de Dependencias, lo cual facilita la creación de aplicaciones robustas y mantenibles, ideal para un sistema POS.
+Integración SII: Generación de DTEs, firma digital y renderizado de Timbre Electrónico (PDF417) optimizado para impresión térmica (algoritmos de binarización).
 
-Frontend (Vite + React): Se optó por Vite por su velocidad de desarrollo (HMR instantáneo) y React por su ecosistema maduro y su modelo de componentes, que se alinea perfectamente con la librería vite_privado.
+Gestión de Hardware (I+D):
 
-Base de Datos (MySQL + Prisma): Se seleccionó MySQL por ser una base de datos relacional robusta y probada. Prisma se utiliza como ORM para garantizar la seguridad de tipos (Type-Safety) entre la base de datos y el código de NestJS, simplificando drásticamente las consultas y las migraciones.
+Implementación de drivers personalizados para impresoras XPrinter.
 
-Librerías Privadas (nest_privado, vite_privado): Esta fue una decisión de diseño estratégica para cumplir con el principio D.R.Y. (Don't Repeat Yourself) y sentar las bases para un futuro crecimiento (ej. una app móvil o un dashboard de admin separado) sin duplicar código.
+Pruebas de concepto realizadas en Python (PyUSB) y Lazarus Pascal (LibUsb) para ingeniería inversa de protocolos.
 
-Despliegue y Pruebas (Branch tests)
+Inventario & Usuarios: RBAC (Role Based Access Control) y carga masiva de datos SQL.
 
-Este repositorio utiliza un flujo de Git estándar.
+🛠️ Instalación y Entorno Local
 
-main: Versión estable (producción).
+Para replicar el entorno de desarrollo, necesitarás clonar este repositorio y las librerías satélite.
 
-develop: Rama de integración para nuevas características.
+1. Prerrequisitos
 
-tests: (Rama actual) Se utiliza para el desarrollo y prueba de características específicas, como el importador de datos SQL y la refactorización a librerías compartidas, antes de integrarlas a develop.
+Node.js v18+
 
-Configuración del Entorno de Desarrollo
+MySQL
 
-Clonar los 3 repositorios en un mismo directorio:
+Impresora Térmica (Opcional, compatible con protocolo ESC/POS)
 
+2. Clonar Repositorios
+
+# Crear carpeta contenedora
+mkdir pos_system && cd pos_system
+
+# Clonar núcleo y librerías
 git clone [https://github.com/AFierroH/pos_sii_nest.git](https://github.com/AFierroH/pos_sii_nest.git)
 git clone [https://github.com/AFierroH/nest_privado.git](https://github.com/AFierroH/nest_privado.git)
 git clone [https://github.com/AFierroH/vite_privado.git](https://github.com/AFierroH/vite_privado.git)
 
 
-Instalar dependencias en los 3 proyectos (npm install).
+3. Instalación de Dependencias
 
-"Enlazar" las dependencias privadas. Desde pos_sii_nest:
+cd pos_sii_nest
 
+# Instalar dependencias raíz y enlazar librerías locales
+npm install
 npm install ../nest_privado
 npm install ./frontend/ ../vite_privado 
-# (Asumiendo que vite_privado se instala dentro de la carpeta /frontend)
 
 
-Configurar el backend (/pos_sii_nest):
+4. Configuración
 
-Crear el archivo .env basado en .env.example.
+Crea un archivo .env en la raíz basado en .env.example:
 
-Definir la DATABASE_URL.
+DATABASE_URL="mysql://user:pass@localhost:3306/pos_db"
+JWT_SECRET="tu_secreto_seguro"
+SIMPLE_API_ENDPOINT="[https://api.simpleapi.cl/](https://api.simpleapi.cl/)..."
 
-Correr migraciones: npx prisma migrate dev
 
-Ejecutar el proyecto:
+5. Ejecución
 
-# En /pos_sii_nest (para el backend)
+# Migrar base de datos
+npx prisma migrate dev
+
+# Iniciar Backend (NestJS)
 npm run start:dev
 
-# En /pos_sii_nest/frontend (para el frontend)
+# Iniciar Frontend (Vite)
+cd frontend
 npm run dev
 
+# Iniciar Electron (Opcional, modo escritorio)
+npm run electron:dev
 
-License
 
-Este proyecto es MIT licensed.
+🔬 Investigación y Desarrollo (I+D)
+
+Durante la práctica profesional se realizaron pruebas exhaustivas de integración de hardware para superar las limitaciones de los navegadores web.
+
+Python: Scripts de prueba con PyUSB y Tkinter para validación rápida de comandos ESC/POS y manipulación de imágenes bit-a-bit.
+
+Lazarus / Pascal: Desarrollo de utilidades nativas de bajo nivel para comunicación directa con el Kernel de Windows (WinUSB) y solución de conflictos de drivers.
+
+Node.js / Electron: Implementación final usando node-usb y escpos con un algoritmo personalizado de dithering para imprimir logos y códigos QR de alta velocidad sin cortar el papel.
+
+📄 Licencia
+
+Este proyecto está bajo la licencia MIT.
